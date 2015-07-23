@@ -15,6 +15,9 @@ from datetime import datetime, timedelta
 from django import http
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
+
+from login.views import logoutview
 
 from .utils import get_last_activity, set_last_activity
 from .settings import EXPIRE_AFTER, PASSIVE_URLS
@@ -39,7 +42,8 @@ class SessionSecurityMiddleware(object):
 
         delta = now - get_last_activity(request.session)
         if delta >= timedelta(seconds=EXPIRE_AFTER):
-            logout(request)
+            #logout(request)
+            logoutview(request)
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
 
