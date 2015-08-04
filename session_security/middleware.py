@@ -16,6 +16,7 @@ from django import http
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
+from django.conf import settings
 
 from login.views import logoutview
 
@@ -44,7 +45,7 @@ class SessionSecurityMiddleware(object):
         if delta >= timedelta(seconds=EXPIRE_AFTER):
             #logout(request)
             #logoutview(request)
-            return redirect('/login/logout/')
+            return redirect(settings.LOGOUT_URL)
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
 
