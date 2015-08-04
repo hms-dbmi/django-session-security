@@ -43,7 +43,8 @@ class SessionSecurityMiddleware(object):
         delta = now - get_last_activity(request.session)
         if delta >= timedelta(seconds=EXPIRE_AFTER):
             #logout(request)
-            logoutview(request)
+            #logoutview(request)
+            return redirect('/login/logout/')
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
 
