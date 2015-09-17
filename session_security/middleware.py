@@ -46,15 +46,7 @@ class SessionSecurityMiddleware(object):
         if delta >= timedelta(seconds=EXPIRE_AFTER):
             #logout(request)
             #logoutview(request)
-            return redirect('/login/logout/')
-            #if 'UDNAuthorization' in request.session:
-            #    del request.session['UDNAuthorization']
-            #if SPECIAL_LOGOUT_URL:
-            #    auth_logout(request)
-            #    return redirect(SPECIAL_LOGOUT_URL)
-            #else:
-            #    auth_logout(request)
-            #    return redirect('/')
+            return redirect(settings.LOGOUT_URL)
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
 
