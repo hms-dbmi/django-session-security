@@ -19,10 +19,10 @@ from django.shortcuts import redirect
 from django.conf import settings
 
 from login.views import logoutview
-from django.contrib.auth import logout as auth_logout
+#from django.contrib.auth import logout as auth_logout
 
 from .utils import get_last_activity, set_last_activity
-from .settings import EXPIRE_AFTER, PASSIVE_URLS,SPECIAL_LOGOUT_URL
+from .settings import EXPIRE_AFTER, PASSIVE_URLS
 
 
 class SessionSecurityMiddleware(object):
