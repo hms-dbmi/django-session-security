@@ -45,7 +45,7 @@ class SessionSecurityMiddleware(object):
         if delta >= timedelta(seconds=EXPIRE_AFTER):
             #logout(request)
             #logoutview(request)
-            return redirect(settings.LOGOUT_URL)
+            return redirect(settings.LOGOUT_URL, permanent=True)
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
 
