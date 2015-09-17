@@ -19,9 +19,10 @@ from django.shortcuts import redirect
 from django.conf import settings
 
 from login.views import logoutview
+from django.contrib.auth import logout as auth_logout
 
 from .utils import get_last_activity, set_last_activity
-from .settings import EXPIRE_AFTER, PASSIVE_URLS
+from .settings import EXPIRE_AFTER, PASSIVE_URLS,SPECIAL_LOGOUT_URL
 
 
 class SessionSecurityMiddleware(object):
@@ -45,6 +46,16 @@ class SessionSecurityMiddleware(object):
         if delta >= timedelta(seconds=EXPIRE_AFTER):
             #logout(request)
             #logoutview(request)
+            if 'UDNAuthorization' in request.session:
+                del request.session['UDNAuthorization']
+            if SPECIAL_LOGOUT_URL:
+                auth_logout(request)
+                return redirect(SPECIAL_LOGOUT_URL)
+            else:
+                auth_logout(request)
+                return redirect('/')
+    return 
+
             return redirect(settings.LOGOUT_URL, permanent=True)
         elif not self.is_passive_request(request):
             set_last_activity(request.session, now)
